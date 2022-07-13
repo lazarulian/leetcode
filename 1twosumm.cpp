@@ -20,22 +20,14 @@ private:
 vector<int> Solution::twoSum(vector<int> &nums, int target)
 { // uses a hashmap to calculate check whether the index exists already within the vector
 
-    unordered_map<int, int> m;
-    vector<int> indices;
-    for (int i = 0; i < nums.size(); i++)
-    {
-        if (m.find(target-nums[i]) == m.end()) {
-            m[nums[i]] = i;
-            continue;
+    unordered_map<int, int> indices;
+        for (int i = 0; i < nums.size(); i++) {
+            if (indices.find(target - nums[i]) != indices.end()) {
+                return {indices[target - nums[i]], i};
+            }
+            indices[nums[i]] = i;
         }
-        else 
-        {
-            indices.push_back(i);
-            indices.push_back(m.find(target-nums[i])->second);
-            break;
-        }
-    }
-    return indices;
+        return {};
 }
 
 // // this will work for ordered vectors
