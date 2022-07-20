@@ -38,5 +38,7 @@ vector<int> productExceptSelf(vector<int> &nums)
 
 int main()
 {
+    vector<int> m(9);
+    cout << m[2] << endl;
     return 0;
 }
