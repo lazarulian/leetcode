@@ -16,7 +16,7 @@ int longestPalindrome(string s)
         m[curr]++;
     }
 
-    for (auto it : m)
+    for (auto i = m.begin(); i != m.end(); i++)
     {
         if (it.second % 2 == 0)
             total += it.second;

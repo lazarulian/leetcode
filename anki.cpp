@@ -1,81 +1,64 @@
 #include <iostream>
-#include <string>
-#include <cassert>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-#include <stack>
-#include <set>
-#include <map>
-#include <list>
-#include <algorithm>
-#include <functional>
+#include <cmath>
 
-using namespace std;
-
-
-
-bool solution(string s, string t)
-{
-    stack<char> sstack;
-    stack<char> tstack;
-
-    for (int i = 0; i < s.size(); i++)
+int myAtoi(string s) 
     {
-        char curr = s[i];
-        if (!sstack.empty() && curr == '#')
+        // Things to Address: White Space, Leading Zeroes, Positive / Negative Numbers, Non-Digits
+
+        int i = 0;
+        const int size = s.size();
+        int sign = 0;
+        int result = 0;
+        int res = INT_MIN;
+        
+        // Skipping the White Space
+        while (s[i] == ' ' && i < size)
         {
-            sstack.pop();
-            continue;
+            i++;
         }
-        else 
+        
+        // Positive or Negative Sign
+        if (s[i] == '-') {
+            sign = -1;
+            i++;
+        }
+        
+        else if (s[i] == '+') {
+            sign = 1;
+            i++;
+        }
+        else
         {
-            sstack.push(curr);
+            sign = 1;
         }
-    }
 
-    for (int i = 0; i < s.size(); i++)
-    {
-        char curr = t[i];
-        if (!tstack.empty() && curr == '#')
+        // Read Characters Until Non-Digit Character
+        while (i < size)
         {
-            tstack.pop();
-            continue;
-        }
-        else 
-        {
-            tstack.push(curr);
-        }
+            char curr = s[i];
+            i++;
+            if (!isdigit(curr))
+                break;
+            else
+            { // Is Digit
+                if (result == 0)
+                    result += curr - '0';
+                else
+                {
+                    int diff = curr - '0';
+                    if (result*sign > (INT_MAX/10))
+                        return INT_MAX;
+                    else if (result*sign < (INT_MIN/10)-diff)
+                        return (res);
+                    result *= 10;
+                    if (result*sign > INT_MAX-diff)
+                        return INT_MAX;
+                    else if (result*sign <= INT_MIN+diff)
+                        return INT_MIN;
+                    result += diff;
+                }
+            } // End Digit Else
+        } // End While Loop
+        
+        return result*sign;
     }
-
-    string new_s = "";
-    string new_t = "";
-
-    if (sstack.size() != tstack.size())
-        return false;
-
-    for (int i = 0; i < sstack.size(); i++)
-    {
-        char curr = sstack.top();
-        new_s += curr;
-    }
-
-    for (int i = 0; i < tstack.size(); i++)
-    {
-        char curr = tstack.top();
-        new_t += curr;
-    }
-
-    if (new_s == new_t)
-        return true;
-    else
-        return false;
-
-}
-
-
-
-int main()
-{
-    return 0;
-}
